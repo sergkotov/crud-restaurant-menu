@@ -5,6 +5,7 @@ const SearchPanel : FC = ()  => {
     return (
         <input 
             type="text"
+            name="search"
             className="form-control search-input"
             placeholder="Find menu position"
         />
