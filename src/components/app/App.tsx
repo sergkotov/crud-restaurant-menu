@@ -47,8 +47,11 @@ const data: MenuItem[] = [
 
 function App() {
   const [allPositions, setAllPositions] = useState<MenuItem[]>(data);
+  const [filteredPositions, setFilteredPositions] = useState<MenuItem[]>([]);
   const [maxId, setMaxId] = useState('0');
   const [info, setInfo] = useState({totalPositions: 0, bestSellerPositions: 0});
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     let currMax = +maxId;
@@ -65,6 +68,18 @@ function App() {
     const bestSellerPositions = allPositions.filter(item => item.bestSeller === true).length;
     setInfo({totalPositions: totalPositions, bestSellerPositions: bestSellerPositions})
   }, [allPositions]);
+
+  useEffect(() => {
+    const searchRegExp = new RegExp(search, 'ig');
+    let filteredData = allPositions.filter(item => item.title.search(searchRegExp) !== -1);
+    if(filter === "increase") {
+      filteredData = filteredData.filter(item => item.needIncreasePrice === true);
+    }
+    if(filter === "price") {
+      filteredData = filteredData.filter(item => item.price >= 10);
+    }
+    setFilteredPositions(filteredData);
+  }, [search, filter, allPositions]);
 
   function deletePosition(id: string) {
     setAllPositions(state => state.filter(item => item.id !== id));
@@ -94,14 +109,22 @@ function App() {
     }));
   }
 
+  function updateSearch(str: string) {
+    setSearch(str);
+  }
+
+  function updateFilter(type: string) {
+    setFilter(type);
+  }
+
   return (
     <div className='app'>
         <AppHeader {...info}/>
         <div className="search-panel">
-          <SearchPanel/>
-          <AppFilter/>
+          <SearchPanel updateSearch={updateSearch}/>
+          <AppFilter updateFilter={updateFilter}/>
         </div>
-        <PositionsList items={allPositions} deleteItem={deletePosition} changeIncreaseOrSeller={changeIncreaseOrSeller}/>
+        <PositionsList items={filteredPositions} deleteItem={deletePosition} changeIncreaseOrSeller={changeIncreaseOrSeller}/>
         <PositionAdd maxId={maxId} changeMaxId={changeMaxId} addPosition={addPosition}/>
     </div>
   );
