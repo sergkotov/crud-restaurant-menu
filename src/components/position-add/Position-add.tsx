@@ -32,8 +32,10 @@ const PositionAdd : FC<{maxId: string, changeMaxId: (currMax: string) => void, a
                 id: String(+maxId + 1),
                 title: inputs.title,
                 price: inputs.price,
-                needIncreasePrice: false
+                needIncreasePrice: false,
+                bestSeller: false
             });
+            setInputs({title: '', price: 0});
         }
     }
 

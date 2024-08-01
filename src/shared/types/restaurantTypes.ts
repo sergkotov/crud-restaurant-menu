@@ -3,4 +3,5 @@ export interface MenuItem {
     title: string;
     price: number;
     needIncreasePrice: boolean;
+    bestSeller: boolean;
 }

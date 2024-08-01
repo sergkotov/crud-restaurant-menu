@@ -3,8 +3,8 @@ import './Positions-list.css';
 import PositionsItem from "../positions-item/Positions-item";
 import { MenuItem } from "../../shared/types/restaurantTypes";
 
-const PositionsList : FC<{items: MenuItem[], deleteItem: (id: string) => void}> = 
-({items, deleteItem,})  => {
+const PositionsList : FC<{items: MenuItem[], deleteItem: (id: string) => void, changeIncreaseOrSeller: (id: string, type: string) => void}> = 
+({items, deleteItem, changeIncreaseOrSeller})  => {
     return (
         <ul className="app-list list-group">
             {items.map((item) => (
@@ -14,7 +14,9 @@ const PositionsList : FC<{items: MenuItem[], deleteItem: (id: string) => void}> 
                     title={item.title}
                     price={item.price}
                     needIncrease={item.needIncreasePrice}
+                    bestSeller={item.bestSeller}
                     deleteItem={deleteItem}
+                    changeIncreaseOrSeller={changeIncreaseOrSeller}
                 />
             ))}
         </ul>
