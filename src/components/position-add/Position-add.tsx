@@ -26,7 +26,7 @@ const PositionAdd : FC<{maxId: string, changeMaxId: (currMax: string) => void, a
 
     function onFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        if(inputs.title) {
+        if(inputs.title && inputs.price > 0) {
             changeMaxId(maxId);
             addPosition({
                 id: String(+maxId + 1),
